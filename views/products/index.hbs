@@ -1,0 +1,19 @@
+<h1>Busca información de todos los abarrotes</h1>
+<hr>
+<a href="/new">Create a new product</a>
+{{#each allProducts}}
+  <div class="product-card">
+    <ul>
+    <li>{{this.name}}</li>
+    <li>{{this.type}}</li>
+    <li>{{this.category}}</li>
+      {{#each stores}}
+      <li>{{this.storeName}}</li>
+      <li>{{this.priceProfeco}}</li>
+      <li>{{this.priceUser}}</li>
+      {{/each}}
+    </ul>
+    <a href="/edit/{{this._id}}">Edit Product</a>
+    <a href="/delete/{{this._id}}">Delete Product</a>
+  </div>
+{{/each}}
