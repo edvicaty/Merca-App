@@ -1,9 +1,8 @@
-
 <h2>Login</h2>
 
 <form action="/auth/login" method="POST" id="form-container">
-  <label for="username">Username</label>
-  <input id="username" type="text" name="username" placeholder="JonSnow">
+  <label for="email">Email</label>
+  <input id="email" type="email" name="email" placeholder="JonSnow">
 
   <br><br>
 
@@ -11,8 +10,11 @@
   <input id="password" type="password" name="password" placeholder="Your password">
   <br>
   {{#if message }}
-    <div class="error-message">{{ message }}</div>
+  <div class="error-message">{{ message }}</div>
   {{/if}}
+  <div>
+    <a href="/auth/google">Login With Google</a>
+  </div>
 
   <br><br>
 
