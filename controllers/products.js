@@ -2,6 +2,11 @@ const Product = require("../models/Product");
 const Review = require("../models/Review");
 
 exports.listAllProducts = async (req, res) => {
+  admin = false;
+  if (req.user.role === "ADMIN") {
+    admin = true;
+  }
+  console.log(req.user);
   let allProducts = await Product.find().populate({
     path: "stores",
     populate: {
@@ -9,7 +14,7 @@ exports.listAllProducts = async (req, res) => {
       model: "Review",
     },
   });
-  res.render("products/index", { allProducts });
+  res.render("products/index", { allProducts, admin });
 };
 
 exports.viewNewForm = (req, res) => {
@@ -18,7 +23,6 @@ exports.viewNewForm = (req, res) => {
 
 exports.createProduct = async (req, res) => {
   const { name, type, store, priceProfeco } = req.body;
-  console.log(`typeeeeeee`, type);
 
   let appendStore = {
     storeName: store,
@@ -31,7 +35,7 @@ exports.createProduct = async (req, res) => {
     type,
     stores: appendStore,
   });
-  console.log(newProduct);
+  // console.log(newProduct);
   res.redirect("/");
 };
 
@@ -73,7 +77,7 @@ exports.viewProduct = async (req, res) => {
     arrayPricesProfeco.length;
   maxProfeco = Math.max(arrayPricesProfeco);
   minProfeco = Math.min(arrayPricesProfeco);
-  console.log(averageProfeco, maxProfeco, minProfeco);
+  // console.log(averageProfeco, maxProfeco, minProfeco);
 
   res.render("products/detail", {
     product,

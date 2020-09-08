@@ -19,7 +19,10 @@
     <li>{{this.priceUser.[0].score}}</li>
     {{/each}}
   </ul>
+  {{#if ../admin}}
   <a href="/edit/{{this._id}}">Edit Product</a>
   <a href="/delete/{{this._id}}">Delete Product</a>
+  {{/if}}
+
 </div>
 {{/each}}
