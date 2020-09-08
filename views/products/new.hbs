@@ -1,0 +1,23 @@
+<h1>Create a new product</h1>
+<hr>
+<form action="/new" method="POST">
+  <label for="name">Nombre del producto (ejemplo: jitomate saladet)</label>
+  <input required type="text" name="name">
+  <br><br>
+  <label for="type">Tipo del producto (ejemplo: jitomate)</label>
+  <select required id="type" name="type">
+    <option value="Jitomate">Jitomate</option>
+    <option value="Cebolla">Cebolla</option>
+    <option value="Lechuga">Lechuga</option>
+    <option value="Mango">Mango</option>
+    <option value="Espinacas">Espinacas</option>
+  </select>
+  <br><br>
+  <label for="store">Tienda</label>
+  <input required type="text" name="store">
+  <br><br>
+  <label for="priceProfeco">Precio Profeco</label>
+  <input required type="number" name="priceProfeco">
+  <br><br>
+  <button type="submit">Crear</button>
+</form>
