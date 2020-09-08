@@ -1,0 +1,28 @@
+<h1>Edit a product</h1>
+<hr>
+<form action="/edit/{{_id}}" method="POST">
+  <label for="name">Nombre del producto</label>
+  <input type="text" name="name" value="{{name}}">
+  <br><br>
+  <label for="type">Tipo del producto</label>
+  <select name="type">
+    <option value="Jitomate">Jitomate</option>
+    <option value="Cebolla">Cebolla</option>
+    <option value="Lechuga">Lechuga</option>
+    <option value="Mango">Mango</option>
+    <option value="Espinacas">Espinacas</option>
+  </select>
+  <br><br>
+  {{#each stores}}
+  <label for="store">Tienda</label>
+  <input type="text" name="store" value="{{storeName}}">
+  <br><br>
+  <label for="store">Tienda</label>
+  <input type="text" name="store" value="{{priceProfeco}}">
+  <br><br>
+  <label for="store">Tienda</label>
+  <input type="text" name="store" value="{{priceUser}}">
+  <br><br>
+  {{/each}}
+  <button type="submit">Editar</button>
+</form>

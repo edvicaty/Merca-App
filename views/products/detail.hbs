@@ -1,0 +1,24 @@
+<h2>Product detail</h2>
+
+
+<h2>{{product.name}}</h2>
+
+<ul>
+  <li>promedio: <span>{{stats.averageProfeco}}</span></li>
+  <li>maximo: <span>{{stats.maxProfeco}}</span></li>
+  <li>minimo: <span>{{stats.minProfeco}}</span></li>
+</ul>
+
+{{#each product.stores}}
+<ul>
+  <li>{{this.storeName}}</li>
+  <li>precio profeco{{this.priceProfeco}}</li>
+  <li>promedio usuarios: {{this.average}}</li>
+  <form action="/updatePriceUser/{{../_id}}/{{this.storeName}}" method="post">
+    <input type="number" name="score">
+    <button type="submit">Ir</button>
+  </form>
+</ul>
+{{/each}}
+
+<a href="/store/new">Agregar tienda</a>

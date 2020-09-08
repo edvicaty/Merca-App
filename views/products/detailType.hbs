@@ -1,0 +1,22 @@
+<h2>Product type detail</h2>
+{{#each products}}
+<h2>{{this.name}}</h2>
+
+<ul>
+  <li>promedio: <span></span></li>
+  <li>maximo: <span></span></li>
+  <li>minimo: <span></span></li>
+</ul>
+
+{{#each this.stores}}
+<ul>
+  <li>{{this.storeName}}</li>
+  <li>precio profeco{{this.priceProfeco}}</li>
+  <li>promedio usuarios: {{this.average}}</li>
+  <form action="/updatePriceUser/{{../_id}}/{{this.storeName}}" method="post">
+    <input type="number" name="score">
+    <button type="submit">Ir</button>
+  </form>
+</ul>
+{{/each}}
+{{/each}}
