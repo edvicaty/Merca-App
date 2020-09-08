@@ -15,7 +15,12 @@ const productSchema = new Schema(
       {
         storeName: String,
         priceProfeco: Number,
-        priceUser: [Number],
+        priceUser: [
+          {
+            type: Schema.Types.ObjectId,
+            ref: "Review",
+          },
+        ],
       },
     ],
     locations: {
