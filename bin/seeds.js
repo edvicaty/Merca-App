@@ -26,6 +26,7 @@ async function scrapWebPage() {
   let page = await browser.newPage();
 
   await page.goto(mainUrl, { waitUntil: "networkidle2" });
+
   let data = await page.evaluate(() => {
     //queries and stuff to do
   });
