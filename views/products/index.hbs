@@ -1,6 +1,9 @@
 <h1>Busca información de todos los abarrotes</h1>
 <hr>
+{{#if admin}}
 <a href="/new">Create a new product</a>
+<hr>
+{{/if}}
 {{#each allProducts}}
 <div class="product-card">
   <ul>

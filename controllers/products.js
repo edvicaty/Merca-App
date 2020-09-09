@@ -25,8 +25,9 @@ exports.viewNewForm = (req, res) => {
 
 exports.createProduct = async (req, res) => {
   const { name, type, store, priceProfeco } = req.body;
+  //mapbox
   let minLong = "-100.00";
-  let minLat = "19/00";
+  let minLat = "19.00";
   let maxLong = "-98.00";
   let maxLat = "20.00";
 
