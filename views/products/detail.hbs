@@ -21,4 +21,19 @@
 </ul>
 {{/each}}
 
-<a href="/store/new">Agregar tienda</a>
+<div id='map' style='width: 800px; height: 400px;'></div>
+<script>
+  mapboxgl.accessToken = 'pk.eyJ1IjoiZWR2aWNhdHkiLCJhIjoiY2tla2tkaHZ6MDg3ODJxbXN2aW9ldnVmbCJ9.jzrSUZ18F2b4FErS8pHTGA';
+  var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v11'
+  });
+  map.addControl(new mapboxgl.NavigationControl());
+
+  var marker = new mapboxgl.Marker()
+    .setLngLat([-99.082587, 19.385063])
+    .addTo(map);
+
+
+
+</script>

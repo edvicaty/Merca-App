@@ -1,5 +1,6 @@
 <h1>Busca información de todos los abarrotes</h1>
 <hr>
+<<<<<<< HEAD
 <button><a href="/new">Crea un nuevo producto</a></button>
 <br><br>
 <div class="container">
@@ -36,4 +37,33 @@
       </div>
     {{/each}}
   </div>
+=======
+{{#if admin}}
+<a href="/new">Create a new product</a>
+<hr>
+{{/if}}
+{{#each allProducts}}
+<div class="product-card">
+  <ul>
+    <a href="/detail/{{this._id}}">
+      <li>{{this.name}}</li>
+    </a>
+
+    <a href="/type/{{this.type}}">
+      <li>{{this.type}}</li>
+    </a>
+
+    <li>{{this.category}}</li>
+    {{#each stores}}
+    <li>{{this.storeName}}</li>
+    <li>{{this.priceProfeco}}</li>
+    <li>{{this.priceUser.[0].score}}</li>
+    {{/each}}
+  </ul>
+  {{#if ../admin}}
+  <a href="/edit/{{this._id}}">Edit Product</a>
+  <a href="/delete/{{this._id}}">Delete Product</a>
+  {{/if}}
+
+>>>>>>> 89b3b1b3c01e2169da6cab686008cac5f65ff450
 </div>

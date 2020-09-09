@@ -1,7 +1,14 @@
 const Product = require("../models/Product");
 const Review = require("../models/Review");
+const Location = require("../models/Location");
+const axios = require("axios");
 
 exports.listAllProducts = async (req, res) => {
+  admin = false;
+  if (req.user.role === "ADMIN") {
+    admin = true;
+  }
+  console.log(req.user);
   let allProducts = await Product.find().populate({
     path: "stores",
     populate: {
@@ -9,7 +16,7 @@ exports.listAllProducts = async (req, res) => {
       model: "Review",
     },
   });
-  res.render("products/index", { allProducts });
+  res.render("products/index", { allProducts, admin });
 };
 
 exports.viewNewForm = (req, res) => {
@@ -18,20 +25,35 @@ exports.viewNewForm = (req, res) => {
 
 exports.createProduct = async (req, res) => {
   const { name, type, store, priceProfeco } = req.body;
-  console.log(`typeeeeeee`, type);
+  //mapbox
+  let minLong = "-100.00";
+  let minLat = "19.00";
+  let maxLong = "-98.00";
+  let maxLat = "20.00";
 
+  let response = await axios.get(
+    `https://api.mapbox.com/geocoding/v5/mapbox.places/${store}.json?bbox=${minLong},${minLat},${maxLong},${maxLat}&access_token=pk.eyJ1IjoiZWR2aWNhdHkiLCJhIjoiY2tla2tkaHZ6MDg3ODJxbXN2aW9ldnVmbCJ9.jzrSUZ18F2b4FErS8pHTGA`
+  );
+  const location = await Location.create({
+    municipality: response.data.features[2].context[1].text,
+    coordinates: {
+      long: response.data.features[0].center[0],
+      lat: response.data.features[0].center[1],
+    },
+  });
   let appendStore = {
     storeName: store,
     priceProfeco,
     priceUser: [],
+    locations: location,
   };
 
-  const newProduct = await Product.create({
+  await Product.create({
     name,
     type,
     stores: appendStore,
   });
-  console.log(newProduct);
+
   res.redirect("/");
 };
 
@@ -73,7 +95,7 @@ exports.viewProduct = async (req, res) => {
     arrayPricesProfeco.length;
   maxProfeco = Math.max(arrayPricesProfeco);
   minProfeco = Math.min(arrayPricesProfeco);
-  console.log(averageProfeco, maxProfeco, minProfeco);
+  // console.log(averageProfeco, maxProfeco, minProfeco);
 
   res.render("products/detail", {
     product,

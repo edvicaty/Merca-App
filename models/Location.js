@@ -3,13 +3,14 @@ const locationSchema = new Schema(
   {
     state: {
       type: String,
+      default: "CDMX",
     },
     municipality: {
       type: String,
     },
     coordinates: {
-      lat: Number,
       long: Number,
+      lat: Number,
     },
   },
   { timestamps: true }
