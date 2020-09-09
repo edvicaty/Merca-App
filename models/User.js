@@ -6,6 +6,11 @@ const userSchema = new Schema(
     email: String,
     password: String,
     googleID: String,
+    role: {
+      type: String,
+      enum: ["ADMIN", "VISITANT"],
+      default: "VISITANT",
+    },
   },
   {
     timestamps: {
