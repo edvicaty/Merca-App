@@ -4,7 +4,6 @@ const storeSchema = new Schema(
     storeName: String,
     priceProfeco: {
       type: Number,
-      default: 0,
     },
     verified: {
       type: Boolean,
