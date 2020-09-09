@@ -1,4 +1,4 @@
-<h1>Edit a product</h1>
+<h1>Edita: {{name}}</h1>
 <hr>
 <form action="/edit/{{_id}}" method="POST">
   <label for="name">Nombre del producto</label>
@@ -17,10 +17,10 @@
   <label for="store">Tienda</label>
   <input type="text" name="store" value="{{storeName}}">
   <br><br>
-  <label for="store">Tienda</label>
+  <label for="store">Precio Profeco</label>
   <input type="text" name="store" value="{{priceProfeco}}">
   <br><br>
-  <label for="store">Tienda</label>
+  <label for="store">Precio Usuario</label>
   <input type="text" name="store" value="{{priceUser}}">
   <br><br>
   {{/each}}
