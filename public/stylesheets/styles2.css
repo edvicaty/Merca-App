@@ -1,0 +1,26 @@
+body {
+  padding: 0;
+  font: 14px "Courier", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00b7ff;
+}
+
+nav {
+  background-color: orangered;
+}
+
+.card-img-top {
+  height: 100px;
+  object-fit: cover;
+}
+
+.stats li {
+  list-style-type: none;
+  display: inline;
+  background-color: orangered;
+  color: white;
+  border-radius: 5px;
+  padding: 3px;
+}
