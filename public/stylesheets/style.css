@@ -2,7 +2,7 @@ body {
   font: 14px "Courier", Helvetica, Arial, sans-serif; }
 
 a {
-  color: #00B7FF;
+  color: #00B7FF
 }
 
 nav{
@@ -14,8 +14,12 @@ nav{
   object-fit: cover;
 }
 
-.stats li {
+.stats li{
   list-style-type: none;
   display: inline;
+  background-color: orangered;
+  color: white;
+  border-radius: 5px;
 }
+
 /*# sourceMappingURL=style.css.map */
