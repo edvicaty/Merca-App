@@ -24,3 +24,11 @@ nav {
   border-radius: 5px;
   padding: 3px;
 }
+.mapboxgl-popup {
+  max-width: 200px;
+}
+
+.mapboxgl-popup-content {
+  text-align: center;
+  font-family: "Open Sans", sans-serif;
+}

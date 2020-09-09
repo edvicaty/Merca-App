@@ -87,25 +87,34 @@ exports.viewProductType = async (req, res) => {
 
 exports.viewProduct = async (req, res) => {
   const id = req.params.id;
-  const product = await Product.findById(id).populate({
-    path: "stores",
-    populate: {
-      path: "priceUser",
-      model: "Review",
-    },
-  });
+  const product = await Product.findById(id)
+    .populate({
+      path: "stores",
+      populate: {
+        path: "priceUser",
+        model: "Review",
+      },
+    })
+    .populate({
+      path: "stores",
+      populate: {
+        path: "locations",
+        model: "Location",
+      },
+    });
   //aqui vamos, falta decidir sobre profeco o no
   arrayPricesProfeco = [];
   product.stores.forEach((store) => {
     arrayPricesProfeco.push(store.priceProfeco);
   });
 
-  averageProfeco =
+  averageProfeco = (
     arrayPricesProfeco.reduce((acc, currentValue) => acc + currentValue) /
-    arrayPricesProfeco.length;
+    arrayPricesProfeco.length
+  ).toFixed(2);
 
-  maxProfeco = Math.max(arrayPricesProfeco);
-  minProfeco = Math.min(arrayPricesProfeco);
+  maxProfeco = Math.max(...arrayPricesProfeco).toFixed(2);
+  minProfeco = Math.min(...arrayPricesProfeco).toFixed(2);
   // console.log(averageProfeco, maxProfeco, minProfeco);
 
   res.render("products/detail", {
@@ -137,10 +146,18 @@ exports.updateUserReview = async (req, res) => {
     for (let j = 0; j < updatedProduct.stores[i].priceUser.length; j++) {
       sum += updatedProduct.stores[i].priceUser[j].score;
     }
-    console.log(updatedProduct.stores[i]);
-    updatedProduct.stores[i].average =
-      sum / updatedProduct.stores[i].priceUser.length;
-    await updatedProduct.stores[i].save();
+    if (sum > 0) {
+      updatedProduct.stores[i].average = (
+        sum / updatedProduct.stores[i].priceUser.length
+      ).toFixed(2);
+    }
+    if (
+      4 * updatedProduct.stores[i].priceProfeco >
+      updatedProduct.stores[i].average >
+      0
+    ) {
+      await updatedProduct.stores[i].save();
+    }
   }
   res.redirect(`/detail/${productId}`);
 };
