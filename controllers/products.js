@@ -1,6 +1,7 @@
 const Product = require("../models/Product");
 const Review = require("../models/Review");
 const Location = require("../models/Location");
+const Store = require("../models/Store");
 const axios = require("axios");
 
 exports.listAllProducts = async (req, res) => {
@@ -24,7 +25,7 @@ exports.viewNewForm = (req, res) => {
 };
 
 exports.createProduct = async (req, res) => {
-  const { name, type, store, priceProfeco } = req.body;
+  const { name, type, store, priceProfeco, imageUrl } = req.body;
   //mapbox
   let minLong = "-100.00";
   let minLat = "19.00";
@@ -41,17 +42,18 @@ exports.createProduct = async (req, res) => {
       lat: response.data.features[0].center[1],
     },
   });
-  let appendStore = {
+
+  const newStore = await Store.create({
     storeName: store,
     priceProfeco,
     priceUser: [],
     locations: location,
-  };
-
+  });
   await Product.create({
     name,
     type,
-    stores: appendStore,
+    stores: newStore,
+    imageUrl,
   });
 
   res.redirect("/");
@@ -85,14 +87,23 @@ exports.viewProductType = async (req, res) => {
 
 exports.viewProduct = async (req, res) => {
   const id = req.params.id;
-  const product = await Product.findById(id).populate("stores.priceUser");
+  const product = await Product.findById(id).populate({
+    path: "stores",
+    populate: {
+      path: "priceUser",
+      model: "Review",
+    },
+  });
+  //aqui vamos, falta decidir sobre profeco o no
   arrayPricesProfeco = [];
   product.stores.forEach((store) => {
     arrayPricesProfeco.push(store.priceProfeco);
   });
+
   averageProfeco =
     arrayPricesProfeco.reduce((acc, currentValue) => acc + currentValue) /
     arrayPricesProfeco.length;
+
   maxProfeco = Math.max(arrayPricesProfeco);
   minProfeco = Math.min(arrayPricesProfeco);
   // console.log(averageProfeco, maxProfeco, minProfeco);
@@ -104,31 +115,32 @@ exports.viewProduct = async (req, res) => {
 };
 
 exports.updateUserReview = async (req, res) => {
-  const { productId, storeName } = req.params;
+  const { storeId, productId } = req.params;
   const { score } = req.body;
+
   const review = await Review.create({ score, user: req.user.id });
-  let product = await Product.findOne({ _id: productId });
-  let productStores = product.stores;
-  let specificStoreArray = productStores.filter(
-    (store) => store.storeName === storeName
-  );
 
-  specificStoreArray[0].priceUser.push(review._id);
-  await product.save();
+  const store = await Store.findOne({ _id: storeId });
+  store.priceUser.push(review);
+  store.save();
 
-  //for para las tiendas
-  let updatedProduct = await Product.findOne({ _id: productId }).populate(
-    "stores.priceUser"
-  );
+  let updatedProduct = await Product.findOne({ _id: productId }).populate({
+    path: "stores",
+    populate: {
+      path: "priceUser",
+      model: "Review",
+    },
+  });
 
   for (let i = 0; i < updatedProduct.stores.length; i++) {
     let sum = 0;
     for (let j = 0; j < updatedProduct.stores[i].priceUser.length; j++) {
       sum += updatedProduct.stores[i].priceUser[j].score;
     }
+    console.log(updatedProduct.stores[i]);
     updatedProduct.stores[i].average =
       sum / updatedProduct.stores[i].priceUser.length;
-    await updatedProduct.save();
+    await updatedProduct.stores[i].save();
   }
   res.redirect(`/detail/${productId}`);
 };
