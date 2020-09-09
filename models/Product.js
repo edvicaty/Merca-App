@@ -12,24 +12,15 @@ const productSchema = new Schema(
       type: String,
       default: "Frutas y verduras frescas",
     },
+    imageUrl: {
+      type: String,
+      default:
+        "https://www.enestadocrudo.com/wp-content/uploads/cropped-verduras-invierno.jpg",
+    },
     stores: [
       {
-        storeName: String,
-        priceProfeco: Number,
-        average: {
-          type: Number,
-          default: 0,
-        },
-        priceUser: [
-          {
-            type: Schema.Types.ObjectId,
-            ref: "Review",
-          },
-        ],
-        locations: {
-          type: Schema.Types.ObjectId,
-          ref: "Location",
-        },
+        type: Schema.Types.ObjectId,
+        ref: "Store",
       },
     ],
   },

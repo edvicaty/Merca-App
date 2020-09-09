@@ -14,12 +14,13 @@
   <li>{{this.storeName}}</li>
   <li>precio profeco{{this.priceProfeco}}</li>
   <li>promedio usuarios: {{this.average}}</li>
-  <form action="/updatePriceUser/{{../_id}}/{{this.storeName}}" method="post">
+  <form action="/updatePriceUser/{{this._id}}/{{../product._id}}" method="post">
     <input type="number" name="score">
     <button type="submit">Ir</button>
   </form>
 </ul>
 {{/each}}
+<a href="/store/new/{{product._id}}" class="card-link">Nueva tienda</a>
 
 <div id='map' style='width: 800px; height: 400px;'></div>
 <script>

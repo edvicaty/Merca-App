@@ -1,0 +1,16 @@
+<h1>Crea una nueva tienda para tu producto</h1>
+<hr>
+<form action="/store/new/{{_id}}" method="POST">
+  <p>Nombre del producto: {{name}}</p>
+  <br><br>
+
+  <p>Válido solo para la CDMX</p>
+  <label for="storeTitle">Nombre de la tienda</label>
+  <input required type="text" name="storeTitle">
+  <label for="storeColonia">Colonia</label>
+  <input required type="text" name="storeColonia">
+  <label for="storeMunicipality">Alcaldía</label>
+  <input required type="text" name="storeMunicipality">
+  <br><br>
+  <button type="submit">Crear tienda</button>
+</form>
