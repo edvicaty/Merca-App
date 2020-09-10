@@ -33,7 +33,6 @@
             ></a
           >
         </th>
-        <th scope="col" colspan="2">{{ this.storeName }}</th>
       </tr>
     </thead>
     <tbody>
@@ -43,10 +42,14 @@
       </tr>
     </tbody>
   </table>
-  <form action="/updatePriceUser/{{../_id}}/{{ this.storeName }}" method="post">
+  <form
+    action="/updatePriceUser/{{ this._id }}/{{ ../product._id }}"
+    method="post"
+    class=".buttonLoading"
+  >
     <label for="score">Actualiza el precio:</label>
-    <input type="number" name="score" />
-    <button type="submit">Ir</button>
+    <input required type="number" name="score" />
+    <button onclick="loading()" type="submit">Ir</button>
   </form>
   {{#if ../admin}}
   <button>
@@ -93,4 +96,10 @@
       essential: true
 
   })}
+
+  const form = document.querySelectorAll(".buttonLoading")
+  function loading(){
+   form.innerHTML += `<p>Cargando</p>`
+  }
+  form.addEventListener('submit', loading())
 </script>

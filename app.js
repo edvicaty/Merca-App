@@ -68,7 +68,7 @@ hbs.registerHelper("ifUndefined", (value, options) => {
 });
 
 // default value for title local
-app.locals.title = "Express - Generated with IronGenerator";
+app.locals.title = "Merca-App";
 
 // Enable authentication using session + passport
 app.use(

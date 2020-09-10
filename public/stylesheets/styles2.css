@@ -37,6 +37,9 @@ nav {
   align-items: center;
   justify-content: center;
 }
+.link-div button {
+  margin: 3px;
+}
 
 .table-container {
   margin: 10px;
@@ -54,4 +57,12 @@ nav {
 .mapboxgl-popup-content {
   text-align: center;
   font-family: "Open Sans", sans-serif;
+}
+
+.thumbnail-index {
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  margin-bottom: 10px;
 }
