@@ -8,6 +8,7 @@ const {
   deleteStore,
   unVerifyStore,
   updateStore,
+  viewUpdateStore,
 } = require("../controllers/stores");
 const { isAuth, checkRole, catchErrors } = require("../middlewares");
 router.get("/store/new/:productId", isAuth, viewStoreForm);
@@ -23,5 +24,11 @@ router.get(
   unVerifyStore
 );
 router.post("/store/update/:storeId", isAuth, checkRole("ADMIN"), updateStore);
+router.get(
+  "/store/seeVerify/:storeId",
+  isAuth,
+  checkRole("ADMIN"),
+  viewUpdateStore
+);
 
 module.exports = router;
