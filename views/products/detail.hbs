@@ -16,7 +16,16 @@
 
 {{#each product.stores}}
 <ul>
-  <li>{{ this.storeName }}</li>
+  <a href="#map">
+    <li
+      onclick="centerMe({{ this.locations.coordinates.long }}, {{
+        this.locations.coordinates.lat
+      }})"
+    >
+      {{ this.storeName }}
+    </li>
+  </a>
+
   <li>precio profeco{{ this.priceProfeco }}</li>
   <li>promedio usuarios: {{ this.average }}</li>
   <form
@@ -49,6 +58,20 @@
     .setPopup(new mapboxgl.Popup({ offset: 25 })
     .setHTML('<h6>' + `{{this.storeName}}` + '</h6><p>' + "Precio PROFECO: $ {{this.priceProfeco}}" + '</p><p>' + "Precio USUARIOS: $ {{this.average}}" + '</p>'))
     .addTo(map)
+
     {{/each}}
+    // Center the map on the coordinates of any clicked symbol from the 'symbols' layer.
+
+
   }
+
+  function centerMe(long, lat){
+    map.flyTo({
+     center: [
+      long,
+      lat
+     ],
+      essential: true // this animation is considered essential with respect to prefers-reduced-motion
+
+  })}
 </script>
