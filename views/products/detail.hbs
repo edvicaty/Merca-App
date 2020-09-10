@@ -1,28 +1,42 @@
-<h2>Detalle: {{name}}</h2>
+<h2>Detalle:</h2>
 
-
-<h2>{{product.name}}</h2>
-
-<ul>
-  <li>promedio: <span>{{stats.averageProfeco}}</span></li>
-  <li>maximo: <span>{{stats.maxProfeco}}</span></li>
-  <li>minimo: <span>{{stats.minProfeco}}</span></li>
-</ul>
+<div class="card mb-3">
+  <img src="{{product.imageUrl}}" class="card-img-top" alt="{{product.name}}">
+  <div class="card-body">
+    <h5 class="card-title">{{product.name}}</h5>
+      <ul class="stats">
+        <li>promedio:{{stats.averageProfeco}}</li>
+        <li>maximo:{{stats.maxProfeco}}</li>
+        <li>minimo:{{stats.minProfeco}}</li>
+      </ul> 
+  </div>
+</div>
 
 {{#each product.stores}}
-<ul>
-  <li>{{this.storeName}}</li>
-  <li>precio profeco{{this.priceProfeco}}</li>
-  <li>promedio usuarios: {{this.average}}</li>
-  <form action="/updatePriceUser/{{this._id}}/{{../product._id}}" method="post">
+  <table class="table" style="text-align: center">
+    <thead>
+      <tr>
+      <th scope="col" colspan="2">{{this.storeName}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Precio Profeco:<br>{{this.priceProfeco}}</td>
+        <td>Precio Usuario:<br>{{this.average}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <form action="/updatePriceUser/{{../_id}}/{{this.storeName}}" method="post">
+    <label for="score">Actualiza el precio:</label>
     <input type="number" name="score">
     <button type="submit">Ir</button>
   </form>
-</ul>
 {{/each}}
 <a href="/store/new/{{product._id}}" class="card-link">Nueva tienda</a>
 
+{{!-- Mapbox map --}}
 <div id='map' style='width: 800px; height: 400px;'></div>
+{{!-- Mapbox script --}}
 <script>
   mapboxgl.accessToken = 'pk.eyJ1IjoiZWR2aWNhdHkiLCJhIjoiY2tla2tkaHZ6MDg3ODJxbXN2aW9ldnVmbCJ9.jzrSUZ18F2b4FErS8pHTGA';
   var map = new mapboxgl.Map({
@@ -34,7 +48,5 @@
   var marker = new mapboxgl.Marker()
     .setLngLat([-99.082587, 19.385063])
     .addTo(map);
-
-
 
 </script>

@@ -16,6 +16,11 @@ nav {
   object-fit: cover;
 }
 
+.stats{
+  padding-left: 0px;
+  margin: 0px;
+}
+
 .stats li {
   list-style-type: none;
   display: inline;
@@ -23,4 +28,13 @@ nav {
   color: white;
   border-radius: 5px;
   padding: 3px;
+  margin: 3px;
 }
+
+.link-div{
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
