@@ -9,7 +9,6 @@ exports.listAllProducts = async (req, res) => {
   if (req.user.role === "ADMIN") {
     admin = true;
   }
-  console.log(req.user);
   let allProducts = await Product.find().populate({
     path: "stores",
     populate: {
@@ -86,6 +85,10 @@ exports.viewProductType = async (req, res) => {
 };
 
 exports.viewProduct = async (req, res) => {
+  admin = false;
+  if (req.user.role === "ADMIN") {
+    admin = true;
+  }
   const id = req.params.id;
   const product = await Product.findById(id)
     .populate({
@@ -102,10 +105,11 @@ exports.viewProduct = async (req, res) => {
         model: "Location",
       },
     });
-  //aqui vamos, falta decidir sobre profeco o no
   arrayPricesProfeco = [];
   product.stores.forEach((store) => {
-    arrayPricesProfeco.push(store.priceProfeco);
+    if (typeof store.priceProfeco === "number") {
+      arrayPricesProfeco.push(store.priceProfeco);
+    }
   });
 
   averageProfeco = (
@@ -120,6 +124,7 @@ exports.viewProduct = async (req, res) => {
   res.render("products/detail", {
     product,
     stats: { averageProfeco, maxProfeco, minProfeco },
+    admin,
   });
 };
 

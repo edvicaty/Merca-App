@@ -23,6 +23,14 @@ const storeSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Location",
     },
+    product: {
+      type: Schema.Types.ObjectId,
+      ref: "Product",
+    },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
   },
   { timestamps: true }
 );
