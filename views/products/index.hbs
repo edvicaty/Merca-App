@@ -1,10 +1,15 @@
 <h1>Busca información de todos los abarrotes</h1>
 <hr>
+{{#if admin}}
 <button><a href="/new">Crea un nuevo producto</a></button>
+<button><a href="/store/checkVerify">Verificar tiendas</a></button>
+
+{{/if}}
 <br><br>
 <div class="container">
   <div class="row">
     {{#each allProducts}}
+<<<<<<< HEAD
       <div class="col-sm-4">
         <div class="card" style="width: 20rem">
           <div class="card-body">
@@ -21,8 +26,40 @@
               <a href="/delete/{{this._id}}" class="card-link">Borrar</a>
             </div>
           </div>
+=======
+    <div class="col-sm-4">
+      <div class="card" style="width: 20rem">
+        <div class="card-body">
+          <h5 class="card-title"><a href="/detail/{{this._id}}">{{this.name}}</a></h5>
+          <h6 class="card-subtitle mb-2 text-muted"><a href="/type/{{this.type}}">{{this.type}}</a></h6>
+          <h6 class="card-subtitle mb-2 text-muted"><a href="/type/{{this.category}}">{{this.category}}</a></h6>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Punto de Venta</th>
+                <th scope="col">P. Profeco</th>
+                <th scope="col">P. Usuarios</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each stores}}
+              <tr>
+                <td>{{this.storeName}}</td>
+                <td>{{this.priceProfeco}}</td>
+                <td>@{{this.priceUser.[0].score}}</td>
+              </tr>
+              {{/each}}
+            </tbody>
+          </table>
+          {{#if ../admin}}
+          <a href="/edit/{{this._id}}" class="card-link">Editar</a>
+          <a href="/delete/{{this._id}}" class="card-link">Borrar</a>
+          {{/if}}
+
+>>>>>>> develop
         </div>
       </div>
+    </div>
     {{/each}}
   </div>
 </div>

@@ -1279,40 +1279,47 @@ let preciosDefEspinaca = preciosArrEspinaca.map((num) => {
   return number;
 });
 
-async function scrapWebPage() {
-  //mapbox
-  let name = "Jitomate saladette";
-  let type = "Jitomate";
+async function scrapWebPage(name, type, url, storeArray, priceArray) {
   let storesArray = [];
   ///////for beginning
-  for (let i = 0; i < tiendasArrJitomateSaladet.length; i++) {
-    let store = tiendasArrJitomateSaladet[i];
-    let priceProfeco = preciosDefJitomateSaladet[i];
+  for (let i = 2; i < storeArray.length; i++) {
+    let store = storeArray[i];
+    let priceProfeco = priceArray[i];
 
     let minLong = "-100.00";
     let minLat = "19.00";
     let maxLong = "-98.00";
     let maxLat = "20.00";
-
+    console.log(store, i);
     let response = await axios.get(
       `https://api.mapbox.com/geocoding/v5/mapbox.places/${store}.json?bbox=${minLong},${minLat},${maxLong},${maxLat}&access_token=pk.eyJ1IjoiZWR2aWNhdHkiLCJhIjoiY2tla2tkaHZ6MDg3ODJxbXN2aW9ldnVmbCJ9.jzrSUZ18F2b4FErS8pHTGA`
     );
-    console.log(`centeeeeeeer`, response.data.features[0]);
-    // let location = await Location.create({
-    //   // municipality: response.data.features[2].context[1].text,
-    //   coordinates: {
-    //     long: response.data.features[0].center[0],
-    //     lat: response.data.features[0].center[1],
-    //   },
-    // });
+    let location = {
+      municipality: "No disponible",
+    };
 
-    // let newStore = await Store.create({
-    //   storeName: store,
-    //   priceProfeco,
-    //   priceUser: [],
-    //   locations: location,
-    // });
-    // storesArray.push(newStore);
+    if (
+      response.data.features[2].context[1].text &&
+      response.data.features[0].center[0] &&
+      response.data.features[0].center[1]
+    ) {
+      location = await Location.create({
+        municipality: response.data.features[2].context[1].text,
+        coordinates: {
+          long: response.data.features[0].center[0],
+          lat: response.data.features[0].center[1],
+        },
+      });
+    }
+
+    let newStore = await Store.create({
+      storeName: store,
+      priceProfeco,
+      verified: true,
+      priceUser: [],
+      locations: location,
+    });
+    storesArray.push(newStore);
   }
 
   /////////for end
@@ -1321,7 +1328,90 @@ async function scrapWebPage() {
     name,
     type,
     stores: storesArray,
-    imageUrl,
+    imageUrl: url,
   });
+  console.log("store created");
 }
-scrapWebPage();
+
+///functions
+
+tiendasArrEspinaca.splice(16, 1);
+preciosDefEspinaca.splice(16, 1);
+tiendasArrMangoParaisoPetacon.splice(70, 1);
+preciosDefMangoParaisoPetacon.splice(70, 1);
+tiendasArrLechugaOjerona.splice(33, 1);
+preciosDefLechugaOjerona.splice(33, 1);
+tiendasArrLechugaRomana.splice(33, 1);
+preciosDefLechugaRomana.splice(33, 1);
+tiendasArrCebollaCambray.splice(31, 1);
+preciosDefCebollaCambray.splice(31, 1);
+tiendasArrCebollaBlanca.splice(64, 1);
+preciosDefCebollaBlanca.splice(64, 1);
+
+scrapWebPage(
+  "Jitomate Saladette",
+  "Jitomate",
+  "https://cdn.forbes.com.mx/2019/05/jitomate-1-1.jpg",
+  tiendasArrJitomateSaladet,
+  preciosDefJitomateSaladet
+);
+scrapWebPage(
+  "Jitomate Bola",
+  "Jitomate",
+  "https://cdn.forbes.com.mx/2019/05/jitomate-1-1.jpg",
+  tiendasArrJitomateBola,
+  preciosDefJitomateBola
+);
+//erroooooooor
+scrapWebPage(
+  "Cebolla Blanca",
+  "Cebolla",
+  "https://cdn.foodandwineespanol.com/2019/11/destcada-garlic.onioncombo.jpg",
+  tiendasArrCebollaBlanca,
+  preciosDefCebollaBlanca
+);
+//erroooooooor
+
+scrapWebPage(
+  "Cebolla Cambray",
+  "Cebolla",
+  "https://cdn.foodandwineespanol.com/2019/11/destcada-garlic.onioncombo.jpg",
+  tiendasArrCebollaCambray,
+  preciosDefCebollaCambray
+);
+//erroooooooor
+
+scrapWebPage(
+  "Lechuga Romana",
+  "Lechuga",
+  "https://grupolucas.press/wp-content/uploads/2019/09/5-Razones-para-incluir-Lechuga-Batavia-en-tu-Alimentaci%C3%B3n-1.jpg",
+  tiendasArrLechugaRomana,
+  preciosDefLechugaRomana
+);
+//erroooooooor
+
+scrapWebPage(
+  "Lechuga Ojerona",
+  "Lechuga",
+  "https://grupolucas.press/wp-content/uploads/2019/09/5-Razones-para-incluir-Lechuga-Batavia-en-tu-Alimentaci%C3%B3n-1.jpg",
+  tiendasArrLechugaOjerona,
+  preciosDefLechugaOjerona
+);
+//erroooooooor
+
+scrapWebPage(
+  "Mango Paraiso Petacon",
+  "Mango",
+  "https://www.agronline.pe/wp-content/uploads/2019/10/1580.jpg",
+  tiendasArrMangoParaisoPetacon,
+  preciosDefMangoParaisoPetacon
+);
+//erroooooooor
+
+scrapWebPage(
+  "Espinaca",
+  "Espinacas",
+  "https://cdn.foodandwineespanol.com/2020/01/destacado-espinaca.jpg",
+  tiendasArrEspinaca,
+  preciosDefEspinaca
+);
