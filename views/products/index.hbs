@@ -11,26 +11,15 @@
             <h5 class="card-title"><a href="/detail/{{this._id}}">{{this.name}}</a></h5>
             <h6 class="card-subtitle mb-2 text-muted"><a href="/type/{{this.type}}">{{this.type}}</a></h6>
             <h6 class="card-subtitle mb-2 text-muted"><a href="/type/{{this.category}}">{{this.category}}</a></h6>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th scope="col">Punto de Venta</th>
-                  <th scope="col">P. Profeco</th>
-                  <th scope="col">P. Usuarios</th>
-                </tr>
-              </thead>
-              <tbody>
-                {{#each stores}}
-                  <tr>
-                    <td>{{this.storeName}}</td>
-                    <td>{{this.priceProfeco}}</td>
-                    <td>@{{this.priceUser.[0].score}}</td>
-                  </tr>
-                {{/each}}
-              </tbody>
-            </table>
-            <a href="/edit/{{this._id}}" class="card-link">Editar</a>
-            <a href="/delete/{{this._id}}" class="card-link">Borrar</a>
+            <ul class="stats">
+              <li>Promedio:{{stats.averageProfeco}}</li>
+              <li>Máximo:{{stats.maxProfeco}}</li>
+              <li>Mínimo:{{stats.minProfeco}}</li>
+            </ul>
+            <div class="link-div">
+              <a href="/edit/{{this._id}}" class="card-link">Editar</a>
+              <a href="/delete/{{this._id}}" class="card-link">Borrar</a>
+            </div>
           </div>
         </div>
       </div>
