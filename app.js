@@ -8,14 +8,18 @@ const hbs = require("hbs");
 const mongoose = require("mongoose");
 const logger = require("morgan");
 const path = require("path");
-// const { setLocals } = require("./middlewares");
+const { setLocals } = require("./middlewares");
 
 const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
 const flash = require("connect-flash");
 
 mongoose
-  .connect(process.env.DB, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(process.env.DB, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+  })
   .then((x) => {
     console.log(
       `Connected to Mongo! Database name: "${x.connections[0].name}"`
@@ -77,7 +81,7 @@ app.use(
 );
 app.use(flash());
 require("./passport")(app);
-// app.use(setLocals(app));
+app.use(setLocals(app));
 
 const productRoutes = require("./routes/products");
 app.use("/", productRoutes);

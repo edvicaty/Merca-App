@@ -1,0 +1,58 @@
+<h2>Verificacion</h2>
+<p>{{ storeName }}</p>
+
+<button><a href="/store/verify/{{ _id }}">ACEPTAR</a></button>
+
+<button><a href="/store/delete/{{ _id }}">RECHAZAR</a></button>
+<p>{{ product.name }}</p>
+<form action="/store/update/{{ _id }}" method="post">
+  <label for="storeName">Nombre de la tienda (direccion)</label>
+  <input value="{{ storeName }}" type="text" name="storeName" />
+  <label for="long">New long</label>
+  <input id="{{ _id }}long" type="text" name="long" />
+  <label for="long">New lat</label>
+  <input id="{{ _id }}lat" type="text" name="lat" />
+  <button type="submit">Actualizar tienda</button>
+</form>
+
+<div id="map" style="width: 800px; height: 400px"></div>
+<script>
+            mapboxgl.accessToken =
+              "pk.eyJ1IjoiZWR2aWNhdHkiLCJhIjoiY2tla2tkaHZ6MDg3ODJxbXN2aW9ldnVmbCJ9.jzrSUZ18F2b4FErS8pHTGA";
+            var map = new mapboxgl.Map({
+              container: "map",
+              style: "mapbox://styles/mapbox/streets-v11",
+              center: [{{locations.coordinates.long}}, {{locations.coordinates.lat}}],
+              zoom: 15,
+            });
+            map.addControl(new mapboxgl.NavigationControl());
+
+              window.onload = () => {
+
+
+
+
+                var marker = new mapboxgl.Marker({
+      draggable: true
+      })
+      .setLngLat([{{locations.coordinates.long}}, {{locations.coordinates.lat}}]).setPopup(new mapboxgl.Popup({ offset: 25 })
+      .setHTML('<h6>' + `{{storeName}}` + '</h6><p>' + "Precio PROFECO: $ {{priceProfeco}}" + '</p><p>' + "Precio USUARIOS: $ {{average}}" + '</p>'))
+      .addTo(map);
+
+      function onDragEnd() {
+      var lngLat = marker.getLngLat();
+
+
+  console.log(lngLat)
+      let long = document.getElementById("{{ _id }}long")
+      long.value =  lngLat.lng
+      let lat = document.getElementById("{{ _id }}lat")
+      lat.value =  lngLat.lat
+    }
+
+      marker.on('dragend', onDragEnd);
+
+
+
+            }
+</script>

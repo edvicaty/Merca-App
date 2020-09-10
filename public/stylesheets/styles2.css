@@ -30,6 +30,7 @@ nav {
   padding: 3px;
   margin: 3px;
 }
+<<<<<<< HEAD
 
 .link-div{
   height: 3rem;
@@ -47,3 +48,13 @@ nav {
   text-align: center;
 }
 
+=======
+.mapboxgl-popup {
+  max-width: 200px;
+}
+
+.mapboxgl-popup-content {
+  text-align: center;
+  font-family: "Open Sans", sans-serif;
+}
+>>>>>>> develop
