@@ -4,7 +4,6 @@ const storeSchema = new Schema(
     storeName: String,
     priceProfeco: {
       type: Number,
-      default: 0,
     },
     verified: {
       type: Boolean,
@@ -23,6 +22,14 @@ const storeSchema = new Schema(
     locations: {
       type: Schema.Types.ObjectId,
       ref: "Location",
+    },
+    product: {
+      type: Schema.Types.ObjectId,
+      ref: "Product",
+    },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
     },
   },
   { timestamps: true }
