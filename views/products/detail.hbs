@@ -18,7 +18,9 @@
     <table class="table table-hover">
       <thead>
         <tr>
-        <th scope="col" colspan="2">{{this.storeName}}</th>
+        <th scope="col" colspan="2"><a href="#map"><span onclick="centerMe({{ this.locations.coordinates.long }}, {{
+        this.locations.coordinates.lat
+      }})">{{this.storeName}}</span></a></th>
         </tr>
       </thead>
       <tbody>
@@ -37,7 +39,7 @@
 {{/each}}
 
 {{!-- Mapbox map --}}
-<div id='map' style='width: 80%; height: 300px;'></div>
+<div id='map' style='width: 100%; height: 300px; margin-bottom: 30px;'></div>
 {{!-- Mapbox script --}}
 <script>
     mapboxgl.accessToken =

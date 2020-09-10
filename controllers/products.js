@@ -78,10 +78,63 @@ exports.deleteProduct = async (req, res) => {
 };
 exports.viewProductType = async (req, res) => {
   const type = req.params.type;
-  const products = await Product.find({ type: type }).populate(
-    "stores.priceUser"
-  );
-  res.render("products/detailType", { products });
+  // const products = await Product.find({ type: type }).populate(
+  //   "stores.priceUser"
+  // );
+  const products = await Product.find({type})
+    .populate({
+      path: "stores",
+      populate: {
+        path: "priceUser",
+        model: "Review",
+      },
+    })
+
+  arrayAveragesProfeco = [];
+  arrayMaxsProfeco = [];
+  arrayMinsProfeco = [];
+    
+  products.forEach(product => {
+    arrayPricesProfeco = [];
+    product.stores.forEach((store) => {
+    if (typeof store.priceProfeco === "number") {
+      arrayPricesProfeco.push(store.priceProfeco);
+    }
+    });
+      averageProfeco = (
+        arrayPricesProfeco.reduce((acc, currentValue) => acc + currentValue) /
+        arrayPricesProfeco.length
+      );
+
+      console.log(averageProfeco)
+      console.log(typeof averageProfeco)
+      if (typeof averageProfeco === "number") {
+        arrayAveragesProfeco.push(averageProfeco)
+      }
+      
+      console.log(arrayAveragesProfeco)
+
+      maxProfeco = Math.max(...arrayPricesProfeco).toFixed(2);
+      arrayMaxsProfeco.push(maxProfeco)
+      minProfeco = Math.min(...arrayPricesProfeco).toFixed(2);
+      arrayMinsProfeco.push(minProfeco)
+  })
+
+  averageOfAveragesProfeco = (
+    arrayAveragesProfeco.reduce((acc, currentValue) => acc + currentValue) /
+    arrayAveragesProfeco.length
+  ).toFixed(2);
+
+  minOfMinsProfeco = Math.min(...arrayMinsProfeco).toFixed(2);
+  maxOfMaxsProfeco = Math.max(...arrayMaxsProfeco).toFixed(2);
+  averageProfecoFixed = averageProfeco.toFixed(2)
+  
+  // console.log(averageProfeco, maxProfeco, minProfeco);
+
+  res.render("products/detailType", {
+    products,
+    stats: {averageOfAveragesProfeco, minOfMinsProfeco, maxOfMaxsProfeco, maxProfeco, minProfeco, averageProfecoFixed}
+  });
 };
 
 exports.viewProduct = async (req, res) => {
