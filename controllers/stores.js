@@ -2,6 +2,7 @@ const Product = require("../models/Product");
 const Store = require("../models/Store");
 const Location = require("../models/Location");
 const axios = require("axios");
+const { findOne } = require("../models/Product");
 
 exports.viewStoreForm = async (req, res) => {
   const { productId } = req.params;
@@ -10,24 +11,23 @@ exports.viewStoreForm = async (req, res) => {
 };
 exports.createStore = async (req, res) => {
   const { productId } = req.params;
-  const { storeTitle, storeColonia, storeMunicipality } = req.body;
+  const { storeTitle, storeColonia, storeMunicipality, long, lat } = req.body;
   const mapQuery = `${storeTitle}%20Colonia%20${storeColonia}%20Delegacion%20${storeMunicipality}%20`;
-  let minLong = "-100.00";
-  let minLat = "19.00";
-  let maxLong = "-98.00";
-  let maxLat = "20.00";
-  let mapBoxUrl = `https://api.mapbox.com/geocoding/v5/mapbox.places/${mapQuery}.json?bbox=${minLong},${minLat},${maxLong},${maxLat}&access_token=pk.eyJ1IjoiZWR2aWNhdHkiLCJhIjoiY2tla2tkaHZ6MDg3ODJxbXN2aW9ldnVmbCJ9.jzrSUZ18F2b4FErS8pHTGA`;
-  // https://api.mapbox.com/geocoding/v5/mapbox.places/calle%20zamora%20colonia%20condesa%20Delegacion%20cuauhtemoc.json?bbox=-100,19,-98,20&access_token=pk.eyJ1IjoiZWR2aWNhdHkiLCJhIjoiY2tla2tkaHZ6MDg3ODJxbXN2aW9ldnVmbCJ9.jzrSUZ18F2b4FErS8pHTGA
-  let response = await axios.get(mapBoxUrl);
+
+  // let minLong = "-100.00";
+  // let minLat = "19.00";
+  // let maxLong = "-98.00";
+  // let maxLat = "20.00";
+  // let mapBoxUrl = `https://api.mapbox.com/geocoding/v5/mapbox.places/${mapQuery}.json?bbox=${minLong},${minLat},${maxLong},${maxLat}&access_token=pk.eyJ1IjoiZWR2aWNhdHkiLCJhIjoiY2tla2tkaHZ6MDg3ODJxbXN2aW9ldnVmbCJ9.jzrSUZ18F2b4FErS8pHTGA`;
+  // let response = await axios.get(mapBoxUrl);
+
   let municipality = "";
-  // if (typeof response.data.features[2].context[1].text !== "undefined") {
-  //   municipality = response.data.features[2].context[1].text;
-  // }
+
   const location = await Location.create({
     municipality: municipality,
     coordinates: {
-      long: response.data.features[0].center[0],
-      lat: response.data.features[0].center[1],
+      long: Number(long),
+      lat: Number(lat),
     },
   });
   const newStore = await Store.create({
@@ -45,7 +45,8 @@ exports.createStore = async (req, res) => {
 exports.viewVerifyForm = async (req, res) => {
   const stores = await Store.find({ verified: false })
     .populate("product")
-    .populate("user");
+    .populate("user")
+    .populate("locations");
 
   // const query = {
   //   stores: { $elemMatch: { verified: false } },
@@ -83,7 +84,12 @@ exports.viewVerifyForm = async (req, res) => {
 };
 exports.verifyStore = async (req, res) => {
   const { storeId } = req.params;
-  await Store.findByIdAndUpdate(storeId, { verified: true }, { new: true });
+  const store = await Store.findByIdAndUpdate(
+    storeId,
+    { verified: true },
+    { new: true }
+  );
+
   res.redirect("/store/checkVerify");
 };
 exports.deleteStore = async (req, res) => {
@@ -98,7 +104,7 @@ exports.unVerifyStore = async (req, res) => {
 };
 exports.updateStore = async (req, res) => {
   const { storeId } = req.params;
-  const { storeName } = req.body;
+  const { storeName, long, lat } = req.body;
 
   await Store.findByIdAndUpdate(storeId, { storeName }, { new: true }).populate(
     "locations"
@@ -108,20 +114,19 @@ exports.updateStore = async (req, res) => {
     "locations"
   );
 
-  let minLong = "-100.00";
-  let minLat = "19.00";
-  let maxLong = "-98.00";
-  let maxLat = "20.00";
-
-  let response = await axios.get(
-    `https://api.mapbox.com/geocoding/v5/mapbox.places/${storeName}.json?bbox=${minLong},${minLat},${maxLong},${maxLat}&access_token=pk.eyJ1IjoiZWR2aWNhdHkiLCJhIjoiY2tla2tkaHZ6MDg3ODJxbXN2aW9ldnVmbCJ9.jzrSUZ18F2b4FErS8pHTGA`
-  );
-
   updatedStore.locations.coordinates = {
-    long: response.data.features[0].center[0],
-    lat: response.data.features[0].center[1],
+    long: Number(long),
+    lat: Number(lat),
   };
   updatedStore.locations.save();
 
-  res.redirect("/store/checkVerify");
+  res.redirect(`/store/seeVerify/${storeId}`);
+};
+
+exports.viewUpdateStore = async (req, res) => {
+  const store = await Store.findById(req.params.storeId)
+    .populate("locations")
+    .populate("products");
+  console.log(`storeeee`, store);
+  res.render("stores/verifySingle", store);
 };
