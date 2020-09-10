@@ -16,7 +16,7 @@ nav {
   object-fit: cover;
 }
 
-.stats{
+.stats {
   padding-left: 0px;
   margin: 0px;
 }
@@ -30,16 +30,15 @@ nav {
   padding: 3px;
   margin: 3px;
 }
-<<<<<<< HEAD
 
-.link-div{
+.link-div {
   height: 3rem;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.table-container{
+.table-container {
   margin: 10px;
   border: 1px solid grey;
 }
@@ -48,7 +47,6 @@ nav {
   text-align: center;
 }
 
-=======
 .mapboxgl-popup {
   max-width: 200px;
 }
@@ -57,4 +55,3 @@ nav {
   text-align: center;
   font-family: "Open Sans", sans-serif;
 }
->>>>>>> develop
