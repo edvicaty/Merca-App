@@ -15,6 +15,7 @@
 </ul>
 
 {{#each product.stores}}
+{{#if this.verified}}
 <ul>
   <a href="#map">
     <li
@@ -36,6 +37,7 @@
     <button type="submit">Ir</button>
   </form>
 </ul>
+{{/if}}
 {{/each}}
 <a href="/store/new/{{ product._id }}" class="card-link">Nueva tienda</a>
 
@@ -53,11 +55,13 @@
 
     window.onload = () => {
     {{#each product.stores}}
+    {{#if this.verified}}
     new mapboxgl.Marker()
     .setLngLat([{{this.locations.coordinates.long}}, {{this.locations.coordinates.lat}}])
     .setPopup(new mapboxgl.Popup({ offset: 25 })
     .setHTML('<h6>' + `{{this.storeName}}` + '</h6><p>' + "Precio PROFECO: $ {{this.priceProfeco}}" + '</p><p>' + "Precio USUARIOS: $ {{this.average}}" + '</p>'))
     .addTo(map)
+    {{/if}}
 
     {{/each}}
     // Center the map on the coordinates of any clicked symbol from the 'symbols' layer.

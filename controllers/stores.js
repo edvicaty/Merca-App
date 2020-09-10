@@ -17,7 +17,6 @@ exports.createStore = async (req, res) => {
   let maxLong = "-98.00";
   let maxLat = "20.00";
   let mapBoxUrl = `https://api.mapbox.com/geocoding/v5/mapbox.places/${mapQuery}.json?bbox=${minLong},${minLat},${maxLong},${maxLat}&access_token=pk.eyJ1IjoiZWR2aWNhdHkiLCJhIjoiY2tla2tkaHZ6MDg3ODJxbXN2aW9ldnVmbCJ9.jzrSUZ18F2b4FErS8pHTGA`;
-  console.log(mapBoxUrl);
   let response = await axios.get(mapBoxUrl);
   const location = await Location.create({
     municipality: response.data.features[2].context[1].text,
@@ -36,6 +35,6 @@ exports.createStore = async (req, res) => {
   product.save();
   res.redirect(`/detail/${productId}`);
 };
-exports.viewEditForm = async (req, res) => {};
-exports.editForm = async (req, res) => {};
+exports.viewVerifyForm = async (req, res) => {};
+exports.verifyForm = async (req, res) => {};
 exports.deleteStore = async (req, res) => {};
