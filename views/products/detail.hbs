@@ -1,99 +1,65 @@
-
 <h2>Detalle:</h2>
 
 <div class="card mb-3">
-  <img src="{{product.imageUrl}}" class="card-img-top" alt="{{product.name}}">
+  <img
+    src="{{ product.imageUrl }}"
+    class="card-img-top"
+    alt="{{ product.name }}"
+  />
   <div class="card-body">
-    <h5 class="card-title">{{product.name}}</h5>
-      <ul class="stats">
-        <li>promedio:{{stats.averageProfeco}}</li>
-        <li>maximo:{{stats.maxProfeco}}</li>
-        <li>minimo:{{stats.minProfeco}}</li>
-      </ul> 
+    <h5 class="card-title">{{ product.name }}</h5>
+    <ul class="stats">
+      <li>promedio:{{ stats.averageProfeco }}</li>
+      <li>maximo:{{ stats.maxProfeco }}</li>
+      <li>minimo:{{ stats.minProfeco }}</li>
+    </ul>
   </div>
 </div>
 
-<button><a href="/store/new/{{product._id}}">Nueva tienda</a></button>
+<button><a href="/store/new/{{ product._id }}">Nueva tienda</a></button>
 {{#each product.stores}}
-  <div class="table-container">
-    <table class="table table-hover">
-      <thead>
-        <tr>
-        <th scope="col" colspan="2"><a href="#map"><span onclick="centerMe({{ this.locations.coordinates.long }}, {{
-        this.locations.coordinates.lat
-      }})">{{this.storeName}}</span></a></th>
-        <th scope="col" colspan="2">{{this.storeName}}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Precio Profeco:<br>{{this.priceProfeco}}</td>
-          <td>Precio Usuario:<br>{{this.average}}</td>
-        </tr>
-      </tbody>
-    </table>
-    <form action="/updatePriceUser/{{../_id}}/{{this.storeName}}" method="post">
-      <label for="score">Actualiza el precio:</label>
-      <input type="number" name="score">
-      <button type="submit">Ir</button>
-    </form>
-  </div>
+{{#if this.verified}}
+<div class="table-container">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col" colspan="2">
+          <a href="#map"
+            ><span
+              onclick="centerMe({{ this.locations.coordinates.long }}, {{
+                this.locations.coordinates.lat
+              }})"
+              >{{ this.storeName }}</span
+            ></a
+          >
+        </th>
+        <th scope="col" colspan="2">{{ this.storeName }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Precio Profeco:<br />{{ this.priceProfeco }}</td>
+        <td>Precio Usuario:<br />{{ this.average }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <form action="/updatePriceUser/{{../_id}}/{{ this.storeName }}" method="post">
+    <label for="score">Actualiza el precio:</label>
+    <input type="number" name="score" />
+    <button type="submit">Ir</button>
+  </form>
+  {{#if ../admin}}
+  <button>
+    <a href="/store/unverify/{{ this._id }}">Quitar verificacion</a>
+  </button>
+  <br /><br />
+  {{/if}}
+</div>
+{{/if}}
 {{/each}}
 
-{{!-- Mapbox map --}}
-<div id='map' style='width: 100%; height: 300px; margin-bottom: 30px;'></div>
-{{!-- Mapbox script --}}
-<script>
-    mapboxgl.accessToken =
-      "pk.eyJ1IjoiZWR2aWNhdHkiLCJhIjoiY2tla2tkaHZ6MDg3ODJxbXN2aW9ldnVmbCJ9.jzrSUZ18F2b4FErS8pHTGA";
-    var map = new mapboxgl.Map({
-      container: "map",
-      style: "mapbox://styles/mapbox/streets-v11",
-      center: [-99.082587, 19.385063],
-      zoom: 15,
-    });
-    map.addControl(new mapboxgl.NavigationControl());
+<div id="map" style="width: 100%; height: 300px; margin-bottom: 30px"></div>
 
-      window.onload = () => {
-      {{#each product.stores}}
-      {{#if this.verified}}
-      new mapboxgl.Marker()
-      .setLngLat([{{this.locations.coordinates.long}}, {{this.locations.coordinates.lat}}])
-      .setPopup(new mapboxgl.Popup({ offset: 25 })
-      .setHTML('<h6>' + `{{this.storeName}}` + '</h6><p>' + "Precio PROFECO: $ {{this.priceProfeco}}" + '</p><p>' + "Precio USUARIOS: $ {{this.average}}" + '</p>'))
-      .addTo(map)
-      {{/if}}
-
-      {{/each}}
-      // Center the map on the coordinates of any clicked symbol from the 'symbols' layer.
-    }
-
-    function centerMe(long, lat){
-      map.flyTo({
-       center: [
-        long,
-        lat
-       ],
-        essential: true // this animation is considered essential with respect to prefers-reduced-motion
-
-    })}
-
-
-
-  map.on('click', function (e) {
-
-  document.getElementById('info').innerHTML =
-  // e.point is the x, y coordinates of the mousemove event relative
-  // to the top-left corner of the map
-  JSON.stringify(e.point) +
-  '<br />' +
-  // e.lngLat is the longitude, latitude geographical position of the event
-  JSON.stringify(e.lngLat.wrap());
-
-  new mapboxgl.Marker()
-      .setLngLat([e.lngLat.lng, e.lngLat.lat])
-  }).addTo(map);
-</script>
 <script>
   mapboxgl.accessToken =
     "pk.eyJ1IjoiZWR2aWNhdHkiLCJhIjoiY2tla2tkaHZ6MDg3ODJxbXN2aW9ldnVmbCJ9.jzrSUZ18F2b4FErS8pHTGA";
@@ -116,10 +82,6 @@
     {{/if}}
 
     {{/each}}
-    // Center the map on the coordinates of any clicked symbol from the 'symbols' layer.
-
-
-</script>
   }
 
   function centerMe(long, lat){
@@ -128,8 +90,7 @@
       long,
       lat
      ],
-      essential: true // this animation is considered essential with respect to prefers-reduced-motion
+      essential: true
 
   })}
 </script>
->>>>>>> develop
