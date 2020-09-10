@@ -9,14 +9,16 @@
   <div class="card-body">
     <h5 class="card-title">{{ product.name }}</h5>
     <ul class="stats">
-      <li>promedio:{{ stats.averageProfeco }}</li>
-      <li>maximo:{{ stats.maxProfeco }}</li>
-      <li>minimo:{{ stats.minProfeco }}</li>
+      <li>promedio $/kg:{{ stats.averageProfeco }}</li>
+      <li>maximo $/kg:{{ stats.maxProfeco }}</li>
+      <li>minimo $/kg:{{ stats.minProfeco }}</li>
     </ul>
   </div>
 </div>
 
-<button><a href="/store/new/{{ product._id }}">Nueva tienda</a></button>
+<button class="newStore">
+  <a href="/store/new/{{ product._id }}">Nueva tienda</a>
+</button>
 {{#each product.stores}}
 {{#if this.verified}}
 <div class="table-container">
@@ -24,21 +26,22 @@
     <thead>
       <tr>
         <th scope="col" colspan="2">
-          <a href="#map"
-            ><span
-              onclick="centerMe({{ this.locations.coordinates.long }}, {{
-                this.locations.coordinates.lat
-              }})"
-              >{{ this.storeName }}</span
-            ></a
+          <a
+            onclick="centerMe({{ this.locations.coordinates.long }}, {{
+              this.locations.coordinates.lat
+            }})"
+            id="modalAnchor"
+            data-toggle="modal"
+            data-target="#modalMap"
+            >{{ this.storeName }}</a
           >
         </th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td>Precio Profeco:<br />{{ this.priceProfeco }}</td>
-        <td>Precio Usuario:<br />{{ this.average }}</td>
+        <td>Precio Profeco $/kg:<br />{{ this.priceProfeco }}</td>
+        <td>Precio Usuario $/kg:<br />{{ this.average }}</td>
       </tr>
     </tbody>
   </table>
@@ -47,7 +50,7 @@
     method="post"
     class=".buttonLoading"
   >
-    <label for="score">Actualiza el precio:</label>
+    <label for="score">Actualiza el precio $/kg:</label>
     <input required type="number" name="score" />
     <button onclick="loading()" type="submit">Ir</button>
   </form>
@@ -61,45 +64,70 @@
 {{/if}}
 {{/each}}
 
-<div id="map" style="width: 100%; height: 300px; margin-bottom: 30px"></div>
+<div
+  class="modal"
+  id="modalMap"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Mapa</h3>
+      </div>
+      <div
+        id="map"
+        style="width: 100%; height: 300px; margin-bottom: 30px"
+        class="modal-body"
+      >
+        <!-- <div
+          id="map"
+          style="width: 100%; height: 300px; margin-bottom: 30px"
+        ></div> -->
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
-  mapboxgl.accessToken =
-    "pk.eyJ1IjoiZWR2aWNhdHkiLCJhIjoiY2tla2tkaHZ6MDg3ODJxbXN2aW9ldnVmbCJ9.jzrSUZ18F2b4FErS8pHTGA";
-  var map = new mapboxgl.Map({
-    container: "map",
-    style: "mapbox://styles/mapbox/streets-v11",
-    center: [-99.082587, 19.385063],
-    zoom: 15,
-  });
-  map.addControl(new mapboxgl.NavigationControl());
+  //    $('#modalMap').on('shown.bs.modal', function () {
+  //    $('#modalAnchor').trigger('focus')
+  //  })
+  //  $('#modalMap').on('shown.bs.modal', function () { // chooseLocation is the id of the modal.
+  //    map.invalidateSize();
+  // });
+     mapboxgl.accessToken =
+       "pk.eyJ1IjoiZWR2aWNhdHkiLCJhIjoiY2tla2tkaHZ6MDg3ODJxbXN2aW9ldnVmbCJ9.jzrSUZ18F2b4FErS8pHTGA";
+     var map = new mapboxgl.Map({
+       container: "map",
+       style: "mapbox://styles/mapbox/streets-v11",
+       center: [-99.082587, 19.385063],
+       zoom: 15,
+     });
+     map.addControl(new mapboxgl.NavigationControl());
 
-    window.onload = () => {
-    {{#each product.stores}}
-    {{#if this.verified}}
-    new mapboxgl.Marker()
-    .setLngLat([{{this.locations.coordinates.long}}, {{this.locations.coordinates.lat}}])
-    .setPopup(new mapboxgl.Popup({ offset: 25 })
-    .setHTML('<h6>' + `{{this.storeName}}` + '</h6><p>' + "Precio PROFECO: $ {{this.priceProfeco}}" + '</p><p>' + "Precio USUARIOS: $ {{this.average}}" + '</p>'))
-    .addTo(map)
-    {{/if}}
+       window.onload = () => {
+       {{#each product.stores}}
+       {{#if this.verified}}
+       new mapboxgl.Marker()
+       .setLngLat([{{this.locations.coordinates.long}}, {{this.locations.coordinates.lat}}])
+       .setPopup(new mapboxgl.Popup({ offset: 25 })
+       .setHTML('<h6>' + `{{this.storeName}}` + '</h6><p>' + "Precio PROFECO $/kg: $ {{this.priceProfeco}}" + '</p><p>' + "Precio USUARIOS $/kg: $ {{this.average}}" + '</p>'))
+       .addTo(map)
+       {{/if}}
 
-    {{/each}}
-  }
+       {{/each}}
+     }
 
-  function centerMe(long, lat){
-    map.flyTo({
-     center: [
-      long,
-      lat
-     ],
-      essential: true
+     function centerMe(long, lat){
+       map.flyTo({
+        center: [
+         long,
+         lat
+        ],
+         essential: true
 
-  })}
-
-  const form = document.querySelectorAll(".buttonLoading")
-  function loading(){
-   form.innerHTML += `<p>Cargando</p>`
-  }
-  form.addEventListener('submit', loading())
+     })}
 </script>

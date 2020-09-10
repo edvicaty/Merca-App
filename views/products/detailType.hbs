@@ -5,35 +5,35 @@
   <img src="{{products.[0].imageUrl}}" class="card-img-top" alt="{{products.[0].name}}">
   <div class="card-body">
     <h5 class="card-title">{{products.name}}</h5>
-      <ul class="stats">
-        <li>promedio:{{stats.averageOfAveragesProfeco}}</li>
-        <li>maximo:{{stats.minOfMinsProfeco}}</li>
-        <li>minimo:{{stats.maxOfMaxsProfeco}}</li>
-      </ul> 
+    <ul class="stats">
+      <li>promedio $/kg:{{stats.averageOfAveragesProfeco}}</li>
+      <li>maximo $/kg:{{stats.minOfMinsProfeco}}</li>
+      <li>minimo $/kg:{{stats.maxOfMaxsProfeco}}</li>
+    </ul>
   </div>
 </div>
 
 <div class="container">
   <div class="row">
     {{#each products}}
-      <div class="col-sm-4">
-        <div class="card" style="width: 20rem">
-          <div class="card-body">
-            <h5 class="card-title"><a href="/detail/{{this._id}}">{{this.name}}</a></h5>
-            <h6 class="card-subtitle mb-2 text-muted"><a href="/type/{{this.type}}">{{this.type}}</a></h6>
-            <h6 class="card-subtitle mb-2 text-muted"><a href="/type/{{this.category}}">{{this.category}}</a></h6>
-            <ul class="stats">
-              <li>Promedio:{{../stats.averageProfecoFixed}}</li>
-              <li>Máximo:{{../stats.maxProfeco}}</li>
-              <li>Mínimo:{{../stats.minProfeco}}</li>
-            </ul>
-            <div class="link-div">
-              <a href="/edit/{{this._id}}" class="card-link">Editar</a>
-              <a href="/delete/{{this._id}}" class="card-link">Borrar</a>
-            </div>
+    <div class="col-sm-4">
+      <div class="card" style="width: 20rem">
+        <div class="card-body">
+          <h5 class="card-title"><a href="/detail/{{this._id}}">{{this.name}}</a></h5>
+          <h6 class="card-subtitle mb-2 text-muted"><a href="/type/{{this.type}}">{{this.type}}</a></h6>
+          <h6 class="card-subtitle mb-2 text-muted"><a href="/type/{{this.category}}">{{this.category}}</a></h6>
+          <ul class="stats">
+            <li>Promedio $/kg:{{../stats.averageProfecoFixed}}</li>
+            <li>Máximo $/kg:{{../stats.maxProfeco}}</li>
+            <li>Mínimo $/kg:{{../stats.minProfeco}}</li>
+          </ul>
+          <div class="link-div">
+            <a href="/edit/{{this._id}}" class="card-link">Editar</a>
+            <a href="/delete/{{this._id}}" class="card-link">Borrar</a>
           </div>
         </div>
       </div>
+    </div>
     {{/each}}
   </div>
 </div>

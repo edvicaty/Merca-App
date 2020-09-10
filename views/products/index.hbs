@@ -15,7 +15,7 @@
           <img class="thumbnail-index" src="{{this.imageUrl}}" alt="producto">
           <h6 class="card-subtitle mb-2 text-muted"><a href="/type/{{this.type}}">{{this.type}}</a></h6>
           <h6 class="card-subtitle mb-2 text-muted">{{this.category}}</h6>
-          {{#if admin}}
+          {{#if ../admin}}
           <div class="link-div">
             <button><a href="/edit/{{this._id}}" class="card-link">Editar</a></button>
             <button><a href="/delete/{{this._id}}" class="card-link">Borrar</a></button>

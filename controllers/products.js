@@ -24,8 +24,7 @@ exports.viewNewForm = (req, res) => {
 };
 
 exports.createProduct = async (req, res) => {
-  const { name, type, store, priceProfeco, imageUrl } = req.body;
-  //mapbox
+  const { name, type, imageUrl, store, priceProfeco } = req.body;
   let minLong = "-100.00";
   let minLat = "19.00";
   let maxLong = "-98.00";
@@ -41,12 +40,12 @@ exports.createProduct = async (req, res) => {
       lat: response.data.features[0].center[1],
     },
   });
-
   const newStore = await Store.create({
     storeName: store,
     priceProfeco,
     priceUser: [],
     locations: location,
+    verified: true,
   });
   await Product.create({
     name,
@@ -81,59 +80,59 @@ exports.viewProductType = async (req, res) => {
   // const products = await Product.find({ type: type }).populate(
   //   "stores.priceUser"
   // );
-  const products = await Product.find({type})
-    .populate({
-      path: "stores",
-      populate: {
-        path: "priceUser",
-        model: "Review",
-      },
-    })
+  const products = await Product.find({ type }).populate({
+    path: "stores",
+    populate: {
+      path: "priceUser",
+      model: "Review",
+    },
+  });
 
   arrayAveragesProfeco = [];
   arrayMaxsProfeco = [];
   arrayMinsProfeco = [];
-    
-  products.forEach(product => {
+
+  products.forEach((product) => {
     arrayPricesProfeco = [];
+
     product.stores.forEach((store) => {
-    if (typeof store.priceProfeco === "number") {
-      arrayPricesProfeco.push(store.priceProfeco);
-    }
-    });
-      averageProfeco = (
-        arrayPricesProfeco.reduce((acc, currentValue) => acc + currentValue) /
-        arrayPricesProfeco.length
-      );
-
-      console.log(averageProfeco)
-      console.log(typeof averageProfeco)
-      if (typeof averageProfeco === "number") {
-        arrayAveragesProfeco.push(averageProfeco)
+      if (typeof store.priceProfeco === "number") {
+        arrayPricesProfeco.push(store.priceProfeco);
       }
-      
-      console.log(arrayAveragesProfeco)
+    });
+    averageProfeco =
+      arrayPricesProfeco.reduce((acc, currentValue) => acc + currentValue, 0) /
+      arrayPricesProfeco.length;
 
-      maxProfeco = Math.max(...arrayPricesProfeco).toFixed(2);
-      arrayMaxsProfeco.push(maxProfeco)
-      minProfeco = Math.min(...arrayPricesProfeco).toFixed(2);
-      arrayMinsProfeco.push(minProfeco)
-  })
+    if (typeof averageProfeco === "number") {
+      arrayAveragesProfeco.push(averageProfeco);
+    }
+
+    maxProfeco = Math.max(...arrayPricesProfeco).toFixed(2);
+    arrayMaxsProfeco.push(maxProfeco);
+    minProfeco = Math.min(...arrayPricesProfeco).toFixed(2);
+    arrayMinsProfeco.push(minProfeco);
+  });
 
   averageOfAveragesProfeco = (
-    arrayAveragesProfeco.reduce((acc, currentValue) => acc + currentValue) /
+    arrayAveragesProfeco.reduce((acc, currentValue) => acc + currentValue, 0) /
     arrayAveragesProfeco.length
   ).toFixed(2);
 
   minOfMinsProfeco = Math.min(...arrayMinsProfeco).toFixed(2);
   maxOfMaxsProfeco = Math.max(...arrayMaxsProfeco).toFixed(2);
-  averageProfecoFixed = averageProfeco.toFixed(2)
-  
-  // console.log(averageProfeco, maxProfeco, minProfeco);
+  averageProfecoFixed = averageProfeco.toFixed(2);
 
   res.render("products/detailType", {
     products,
-    stats: {averageOfAveragesProfeco, minOfMinsProfeco, maxOfMaxsProfeco, maxProfeco, minProfeco, averageProfecoFixed}
+    stats: {
+      averageOfAveragesProfeco,
+      minOfMinsProfeco,
+      maxOfMaxsProfeco,
+      maxProfeco,
+      minProfeco,
+      averageProfecoFixed,
+    },
   });
 };
 
@@ -166,13 +165,12 @@ exports.viewProduct = async (req, res) => {
   });
 
   averageProfeco = (
-    arrayPricesProfeco.reduce((acc, currentValue) => acc + currentValue) /
+    arrayPricesProfeco.reduce((acc, currentValue) => acc + currentValue, 0) /
     arrayPricesProfeco.length
   ).toFixed(2);
 
   maxProfeco = Math.max(...arrayPricesProfeco).toFixed(2);
   minProfeco = Math.min(...arrayPricesProfeco).toFixed(2);
-  // console.log(averageProfeco, maxProfeco, minProfeco);
 
   res.render("products/detail", {
     product,
