@@ -1,16 +1,62 @@
 <h1>Crea una nueva tienda para tu producto</h1>
-<hr>
-<form action="/store/new/{{_id}}" method="POST">
-  <p>Nombre del producto: {{name}}</p>
-  <br><br>
+<hr />
+<form action="/store/new/{{ _id }}" method="POST">
+  <p>Nombre del producto: {{ name }}</p>
+  <br /><br />
 
   <p>Válido solo para la CDMX</p>
   <label for="storeTitle">Nombre de la tienda</label>
-  <input required type="text" name="storeTitle">
+  <input required type="text" name="storeTitle" />
   <label for="storeColonia">Colonia</label>
-  <input required type="text" name="storeColonia">
+  <input type="text" name="storeColonia" />
   <label for="storeMunicipality">Alcaldía</label>
-  <input required type="text" name="storeMunicipality">
-  <br><br>
+  <input type="text" name="storeMunicipality" />
+  <br /><br />
+  <input hidden id="{{ _id }}long" type="text" name="long" />
+  <input hidden id="{{ _id }}lat" type="text" name="lat" />
   <button type="submit">Crear tienda</button>
 </form>
+
+<div id="map" style="width: 800px; height: 400px"></div>
+<script>
+  mapboxgl.accessToken =
+    "pk.eyJ1IjoiZWR2aWNhdHkiLCJhIjoiY2tla2tkaHZ6MDg3ODJxbXN2aW9ldnVmbCJ9.jzrSUZ18F2b4FErS8pHTGA";
+  var map = new mapboxgl.Map({
+    container: "map",
+    style: "mapbox://styles/mapbox/streets-v11",
+    center: [-99.1814706159574, 19.412357358557642],
+    zoom: 15,
+  });
+  map.addControl(new mapboxgl.NavigationControl());
+
+  window.onload = () => {
+    var marker = new mapboxgl.Marker({
+      draggable: true,
+    })
+      .setLngLat([-99.1814706159574, 19.412357358557642])
+      .setPopup(
+        new mapboxgl.Popup({ offset: 25 }).setHTML(
+          "<h6>" +
+            `{{this.storeName}}` +
+            "</h6><p>" +
+            "Precio PROFECO: $ {{this.priceProfeco}}" +
+            "</p><p>" +
+            "Precio USUARIOS: $ {{this.average}}" +
+            "</p>"
+        )
+      )
+      .addTo(map);
+
+    function onDragEnd() {
+      var lngLat = marker.getLngLat();
+
+      console.log(lngLat);
+      let long = document.getElementById("{{ _id }}long");
+      long.value = lngLat.lng;
+      let lat = document.getElementById("{{ _id }}lat");
+      lat.value = lngLat.lat;
+    }
+
+    marker.on("dragend", onDragEnd);
+  };
+</script>

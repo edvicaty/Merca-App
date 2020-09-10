@@ -16,7 +16,7 @@ nav {
   object-fit: cover;
 }
 
-.stats{
+.stats {
   padding-left: 0px;
   margin: 0px;
 }
@@ -31,14 +31,14 @@ nav {
   margin: 3px;
 }
 
-.link-div{
+.link-div {
   height: 3rem;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.table-container{
+.table-container {
   margin: 10px;
   border: 1px solid grey;
 }
@@ -47,7 +47,6 @@ nav {
   text-align: center;
 }
 
-
 .mapboxgl-popup {
   max-width: 200px;
 }
@@ -55,17 +54,4 @@ nav {
 .mapboxgl-popup-content {
   text-align: center;
   font-family: "Open Sans", sans-serif;
-}
-#info {
-  display: block;
-  position: relative;
-  margin: 0px auto;
-  width: 50%;
-  padding: 10px;
-  border: none;
-  border-radius: 3px;
-  font-size: 12px;
-  text-align: center;
-  color: #222;
-  background: #fff;
 }

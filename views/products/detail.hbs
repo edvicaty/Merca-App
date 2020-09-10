@@ -1,3 +1,4 @@
+
 <h2>Detalle:</h2>
 
 <div class="card mb-3">
@@ -21,6 +22,7 @@
         <th scope="col" colspan="2"><a href="#map"><span onclick="centerMe({{ this.locations.coordinates.long }}, {{
         this.locations.coordinates.lat
       }})">{{this.storeName}}</span></a></th>
+        <th scope="col" colspan="2">{{this.storeName}}</th>
         </tr>
       </thead>
       <tbody>
@@ -92,3 +94,42 @@
       .setLngLat([e.lngLat.lng, e.lngLat.lat])
   }).addTo(map);
 </script>
+<script>
+  mapboxgl.accessToken =
+    "pk.eyJ1IjoiZWR2aWNhdHkiLCJhIjoiY2tla2tkaHZ6MDg3ODJxbXN2aW9ldnVmbCJ9.jzrSUZ18F2b4FErS8pHTGA";
+  var map = new mapboxgl.Map({
+    container: "map",
+    style: "mapbox://styles/mapbox/streets-v11",
+    center: [-99.082587, 19.385063],
+    zoom: 15,
+  });
+  map.addControl(new mapboxgl.NavigationControl());
+
+    window.onload = () => {
+    {{#each product.stores}}
+    {{#if this.verified}}
+    new mapboxgl.Marker()
+    .setLngLat([{{this.locations.coordinates.long}}, {{this.locations.coordinates.lat}}])
+    .setPopup(new mapboxgl.Popup({ offset: 25 })
+    .setHTML('<h6>' + `{{this.storeName}}` + '</h6><p>' + "Precio PROFECO: $ {{this.priceProfeco}}" + '</p><p>' + "Precio USUARIOS: $ {{this.average}}" + '</p>'))
+    .addTo(map)
+    {{/if}}
+
+    {{/each}}
+    // Center the map on the coordinates of any clicked symbol from the 'symbols' layer.
+
+
+</script>
+  }
+
+  function centerMe(long, lat){
+    map.flyTo({
+     center: [
+      long,
+      lat
+     ],
+      essential: true // this animation is considered essential with respect to prefers-reduced-motion
+
+  })}
+</script>
+>>>>>>> develop

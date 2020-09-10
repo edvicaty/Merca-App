@@ -1,14 +1,6 @@
 <h2>Verificación</h2>
 {{#each stores}}
-<p>{{this.storeName}}</p>
-<button><a href="/store/verify/{{this._id}}">ACEPTAR</a></button>
-
-<button><a href="/store/delete/{{this._id}}">RECHAZAR</a></button>
-<p>{{this.product.name}}</p>
-<form action="/store/update/{{this._id}}" method="post">
-  <label for="storeName">Nombre de la tienda (direccion)</label>
-  <input value="{{this.storeName}}" type="text" name="storeName">
-  <button type="submit">Actualizar tienda</button>
-</form>
-
+<a href="/store/seeVerify/{{ this._id }}">
+  <p>{{ this.storeName }}</p>
+</a>
 {{/each}}
