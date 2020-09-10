@@ -38,3 +38,12 @@ nav {
   justify-content: center;
 }
 
+.table-container{
+  margin: 10px;
+  border: 1px solid grey;
+}
+
+.table {
+  text-align: center;
+}
+
