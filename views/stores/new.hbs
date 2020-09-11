@@ -12,10 +12,29 @@
   <label for="storeMunicipality">Alcaldía</label>
   <input type="text" name="storeMunicipality" />
   <br /><br />
-  <input hidden id="{{ _id }}long" type="text" name="long" />
-  <input hidden id="{{ _id }}lat" type="text" name="lat" />
+  <input
+    hidden
+    value="-99.1814706159574"
+    id="{{ _id }}long"
+    type="text"
+    name="long"
+  />
+  <input
+    hidden
+    value="19.412357358557642"
+    id="{{ _id }}lat"
+    type="text"
+    name="lat"
+  />
   <button type="submit">Crear tienda</button>
 </form>
+<br /><br />
+<p>NOTA: arrastra el marcador a la ubicación de la tienda</p>
+<p>
+  IMPORTANTE: tu tienda debe ser autorizada por un administrador antes de
+  aparecer en la pagina
+</p>
+<br /><br />
 
 <div id="map" style="width: 800px; height: 400px"></div>
 <script>
