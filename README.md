@@ -14,9 +14,9 @@ Nuestra app muestra los precios de los productos registrados en las tiendas regi
 - Contraseña: guest10
 
 ### Variables de entorno usadas:
-PORT= puerto local a conectar
-ENV= development
-SESSION_SECRET= secreto de la sesion
-DB= base da datos local
-GOOGLE_ID= Id de google
-GOOGLE_SECRET= Secreto de google
+- PORT= puerto local a conectar
+- ENV= development
+- SESSION_SECRET= secreto de la sesion
+- DB= base da datos local
+- GOOGLE_ID= Id de google
+- GOOGLE_SECRET= Secreto de google
