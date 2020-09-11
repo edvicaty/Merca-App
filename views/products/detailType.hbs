@@ -7,8 +7,9 @@
     <h5 class="card-title">{{products.name}}</h5>
     <ul class="stats">
       <li>promedio $/kg:{{stats.averageOfAveragesProfeco}}</li>
-      <li>maximo $/kg:{{stats.minOfMinsProfeco}}</li>
-      <li>minimo $/kg:{{stats.maxOfMaxsProfeco}}</li>
+      <br><br>
+      <li>Min $/kg:{{stats.minOfMinsProfeco}}</li>
+      <li>Max $/kg:{{stats.maxOfMaxsProfeco}}</li>
     </ul>
   </div>
 </div>
@@ -24,8 +25,9 @@
           <h6 class="card-subtitle mb-2 text-muted"><a href="/type/{{this.category}}">{{this.category}}</a></h6>
           <ul class="stats">
             <li>Promedio $/kg:{{../stats.averageProfecoFixed}}</li>
-            <li>Máximo $/kg:{{../stats.maxProfeco}}</li>
-            <li>Mínimo $/kg:{{../stats.minProfeco}}</li>
+            <br><br>
+            <li>Max $/kg:{{../stats.maxProfeco}}</li>
+            <li>Min $/kg:{{../stats.minProfeco}}</li>
           </ul>
           <div class="link-div">
             <a href="/edit/{{this._id}}" class="card-link">Editar</a>
