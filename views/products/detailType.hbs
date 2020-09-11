@@ -21,18 +21,15 @@
       <div class="card" style="width: 20rem">
         <div class="card-body">
           <h5 class="card-title"><a href="/detail/{{this._id}}">{{this.name}}</a></h5>
-          <h6 class="card-subtitle mb-2 text-muted"><a href="/type/{{this.type}}">{{this.type}}</a></h6>
-          <h6 class="card-subtitle mb-2 text-muted"><a href="/type/{{this.category}}">{{this.category}}</a></h6>
+          <h6 class="card-subtitle mb-2 text-muted">{{this.type}}</h6>
+          <h6 class="card-subtitle mb-2 text-muted">{{this.category}}</h6>
           <ul class="stats">
             <li>Promedio $/kg:{{../stats.averageProfecoFixed}}</li>
             <br><br>
             <li>Max $/kg:{{../stats.maxProfeco}}</li>
             <li>Min $/kg:{{../stats.minProfeco}}</li>
           </ul>
-          <div class="link-div">
-            <a href="/edit/{{this._id}}" class="card-link">Editar</a>
-            <a href="/delete/{{this._id}}" class="card-link">Borrar</a>
-          </div>
+
         </div>
       </div>
     </div>
