@@ -12,7 +12,9 @@
       <div class="card" style="width: 20rem">
         <div class="card-body">
           <h5 class="card-title"><a href="/detail/{{this._id}}">{{this.name}}</a></h5>
-          <img class="thumbnail-index" src="{{this.imageUrl}}" alt="producto">
+          <a href="/detail/{{this._id}}"><img class="thumbnail-index" href=/detail/{{this._id}}" src="{{this.imageUrl}}"
+              alt="producto"></a>
+
           <h6 class="card-subtitle mb-2 text-muted"><a href="/type/{{this.type}}">{{this.type}}</a></h6>
           <h6 class="card-subtitle mb-2 text-muted">{{this.category}}</h6>
           {{#if ../admin}}
