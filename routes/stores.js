@@ -13,7 +13,6 @@ const {
 const { isAuth, checkRole, catchErrors } = require("../middlewares");
 router.get("/store/new/:productId", isAuth, viewStoreForm);
 router.post("/store/new/:productId", isAuth, createStore);
-//FALTA VERIFICAR TIENDAS
 router.get("/store/checkVerify", isAuth, checkRole("ADMIN"), viewVerifyForm);
 router.get("/store/verify/:storeId", isAuth, checkRole("ADMIN"), verifyStore);
 router.get("/store/delete/:storeId", isAuth, checkRole("ADMIN"), deleteStore);

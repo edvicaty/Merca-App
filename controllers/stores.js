@@ -1,8 +1,6 @@
 const Product = require("../models/Product");
 const Store = require("../models/Store");
 const Location = require("../models/Location");
-const axios = require("axios");
-const { findOne } = require("../models/Product");
 
 exports.viewStoreForm = async (req, res) => {
   const { productId } = req.params;
@@ -12,19 +10,9 @@ exports.viewStoreForm = async (req, res) => {
 exports.createStore = async (req, res) => {
   const { productId } = req.params;
   const { storeTitle, storeColonia, storeMunicipality, long, lat } = req.body;
-  const mapQuery = `${storeTitle}%20Colonia%20${storeColonia}%20Delegacion%20${storeMunicipality}%20`;
-
-  // let minLong = "-100.00";
-  // let minLat = "19.00";
-  // let maxLong = "-98.00";
-  // let maxLat = "20.00";
-  // let mapBoxUrl = `https://api.mapbox.com/geocoding/v5/mapbox.places/${mapQuery}.json?bbox=${minLong},${minLat},${maxLong},${maxLat}&access_token=pk.eyJ1IjoiZWR2aWNhdHkiLCJhIjoiY2tla2tkaHZ6MDg3ODJxbXN2aW9ldnVmbCJ9.jzrSUZ18F2b4FErS8pHTGA`;
-  // let response = await axios.get(mapBoxUrl);
-
-  let municipality = "";
 
   const location = await Location.create({
-    municipality: municipality,
+    municipality: storeMunicipality,
     coordinates: {
       long: Number(long),
       lat: Number(lat),
@@ -48,38 +36,6 @@ exports.viewVerifyForm = async (req, res) => {
     .populate("user")
     .populate("locations");
 
-  // const query = {
-  //   stores: { $elemMatch: { verified: false } },
-  // };
-  // const products = await Product.aggregate([
-  //   {
-  //     $project: {
-  //       stores: {
-  //         $filter: {
-  //           input: "$stores",
-  //           as: "store",
-  //           cond: {
-  //             $and: [{ $eq: ["$$store.verified", true] }],
-  //           },
-  //         },
-  //       },
-  //     },
-  //   },
-  // ]);
-  // const productPopulate = await Product.populate(products, { path: "stores" });
-  //const products = await Product.find(query).populate("stores");
-
-  // const productsArr = await Product.find().populate("stores")
-  // const productsStores = productsArr.map((product) => {
-  //   return product.stores;
-  // });
-  // const produc productsUnverifiedStores.filter()
-  //   filter((store) => {
-  //     return store.verified === false;
-  //   });
-  // });
-  // console.log(`arraaaaaay`, products);
-  console.log(stores);
   res.render("stores/verify", { stores });
 };
 exports.verifyStore = async (req, res) => {
@@ -127,6 +83,5 @@ exports.viewUpdateStore = async (req, res) => {
   const store = await Store.findById(req.params.storeId)
     .populate("locations")
     .populate("products");
-  console.log(`storeeee`, store);
   res.render("stores/verifySingle", store);
 };

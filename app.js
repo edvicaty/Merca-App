@@ -36,13 +36,10 @@ const debug = require("debug")(
 
 const app = express();
 
-// Middleware Setup
 app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-
-// Express View engine setup
 
 app.use(
   require("node-sass-middleware")({
@@ -67,10 +64,8 @@ hbs.registerHelper("ifUndefined", (value, options) => {
   }
 });
 
-// default value for title local
 app.locals.title = "Merca-App";
 
-// Enable authentication using session + passport
 app.use(
   session({
     secret: process.env.SESSION_SECRET,

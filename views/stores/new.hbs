@@ -10,7 +10,7 @@
   <label for="storeColonia">Colonia</label>
   <input type="text" name="storeColonia" />
   <label for="storeMunicipality">Alcaldía</label>
-  <input type="text" name="storeMunicipality" />
+  <input required type="text" name="storeMunicipality" />
   <br /><br />
   <input
     hidden
@@ -69,7 +69,6 @@
     function onDragEnd() {
       var lngLat = marker.getLngLat();
 
-      console.log(lngLat);
       let long = document.getElementById("{{ _id }}long");
       long.value = lngLat.lng;
       let lat = document.getElementById("{{ _id }}lat");

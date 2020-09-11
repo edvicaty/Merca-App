@@ -77,9 +77,7 @@ exports.deleteProduct = async (req, res) => {
 };
 exports.viewProductType = async (req, res) => {
   const type = req.params.type;
-  // const products = await Product.find({ type: type }).populate(
-  //   "stores.priceUser"
-  // );
+
   const products = await Product.find({ type }).populate({
     path: "stores",
     populate: {
