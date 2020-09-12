@@ -20,3 +20,6 @@ Nuestra app muestra los precios de los productos registrados en las tiendas regi
 - DB= base da datos local
 - GOOGLE_ID= Id de google
 - GOOGLE_SECRET= Secreto de google
+
+### Autores:
+- Hugo Suastegui & Edgar Villavicencio
